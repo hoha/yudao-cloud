@@ -132,7 +132,7 @@
         <repository>
             <id>aliyunmaven</id>
             <name>aliyun</name>
-            <url>https://maven.aliyun.com/repository/public</url>
+            <url>http://10.31.1.166:30030/repository/aliyun_maven/</url>
         </repository>
     </repositories>
 
