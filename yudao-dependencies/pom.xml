@@ -656,6 +656,28 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- 使用 huawei / aliyun 的 Maven 源，提升下载速度 -->
+    <repositories>
+        <repository>
+            <id>custom</id>
+            <name>custom</name>
+            <url>http://10.31.1.166:30030/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>Releases</name>
+            <url>http://10.31.1.166:30030/repository/custom_repo/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>Snapshot</name>
+            <url>http://10.31.1.166:30030/repository/custom_repo/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <build>
         <plugins>
             <!-- 统一 revision 版本 -->
