@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: jhb
+  name: yudao-infra-biz
+  labels:
+    app: yudao-infra-biz
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: yudao-infra-biz
+  template:
+    metadata:
+      labels:
+        app: yudao-infra-biz
+    spec:
+      containers:
+        - name: yudao-infra-biz
+          image: registry.cn-hangzhou.aliyuncs.com/ey_jhb_gc/yudao-infra-biz:2.0.1
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: JAVA_OPTS
+              value: "-XX:MaxMetaspaceSize=256m -Xmx512M"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 48082
+      dnsPolicy: Default
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: jhb
+  name: yudao-infra-biz
+  labels:
+    app: yudao-infra-biz
+spec:
+  selector:
+    app: yudao-infra-biz
+  ports:
+    - port: 48082
+      targetPort: 48082
+      nodePort: 31002
+  type: NodePort

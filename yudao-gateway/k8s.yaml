@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: jhb
+  name: yudao-gateway
+  labels:
+    app: yudao-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yudao-gateway
+  template:
+    metadata:
+      labels:
+        app: yudao-gateway
+    spec:
+      containers:
+        - name: yudao-gateway
+          image: registry.cn-hangzhou.aliyuncs.com/ey_jhb_gc/yudao-gateway:2.0.1
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: JAVA_OPTS
+              value: "-XX:MaxMetaspaceSize=256m -Xmx512M"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 48080
+      dnsPolicy: Default
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: jhb
+  name: yudao-gateway
+  labels:
+    app: yudao-gateway
+spec:
+  selector:
+    app: yudao-gateway
+  ports:
+    - port: 48080
+      targetPort: 48080
+      nodePort: 31000
+  type: NodePort
